@@ -563,7 +563,7 @@ const AUD={n:{"shikata":"SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAA
   const init=()=>{A=getAC();master=A.createGain();master.gain.value=0;master.connect(A.destination);
     el=new Audio();el.crossOrigin='anonymous';el.src=SRC;el.loop=true;el.preload='auto';el.setAttribute('playsinline','');
     try{const src=A.createMediaElementSource(el);src.connect(master);}catch(e){el.__direct=true;}};
-  const level=()=>duckd?0.22:0.85;
+  const level=()=>duckd?0.155:0.595;
   btn.addEventListener('click',()=>{if(!A)init();unlockAudio(A);on=!on;window.__musicOn=on;btn.classList.toggle('on',on);btn.setAttribute('aria-pressed',on);lab.textContent=on?'Music on':'Play music';window.track&&track('music_toggle',{state:on?'on':'off'});
     clearTimeout(stopT);
     if(on){A.resume();const p=el.play();if(p&&p.catch)p.catch(()=>{on=false;window.__musicOn=false;btn.classList.remove('on');btn.setAttribute('aria-pressed',false);lab.textContent='Play music';});
