@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/og.jpg",
+      "destination": "/api/asset?n=og"
+    },
+    {
+      "source": "/apple-touch-icon.png",
+      "destination": "/api/asset?n=apple"
+    },
+    {
+      "source": "/favicon.png",
+      "destination": "/api/asset?n=icon"
+    },
+    {
+      "source": "/icon-512.png",
+      "destination": "/api/asset?n=icon512"
+    }
+  ]
+}
