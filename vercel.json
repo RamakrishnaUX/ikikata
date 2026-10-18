@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/music.mp3",
+      "destination": "/api/music"
+    },
+    {
       "source": "/og.jpg",
       "destination": "/api/asset?n=og"
     },
