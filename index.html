@@ -13,14 +13,16 @@
 <meta property="og:title" content="Ikikata: ways of living from Japan">
 <meta property="og:description" content="Eighteen Japanese ideas about how to live, explained simply, with real pronunciation and small 3D worlds to touch.">
 <meta property="og:url" content="https://ikikata-six.vercel.app/">
-<meta property="og:image" content="https://ikikata-six.vercel.app/og.jpg?v=2">
+<meta property="og:image" content="https://ikikata-six.vercel.app/og.jpg?v=3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="The Japanese characters 生き方 brushed in cream on a vermilion background, with the title Ikikata, ways of living from Japan.">
+<meta property="og:image:alt" content="A textured sunset sun with the Japanese characters 生き方 brushed inside it, above the title Ikikata, ways of living from Japan.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ikikata: ways of living from Japan">
 <meta name="twitter:description" content="Eighteen Japanese ideas about how to live, explained simply, with real pronunciation and small 3D worlds to touch.">
-<meta name="twitter:image" content="https://ikikata-six.vercel.app/og.jpg?v=2">
+<meta name="twitter:image" content="https://ikikata-six.vercel.app/og.jpg?v=3">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2FT607NZX5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2FT607NZX5');window.track=function(n,p){try{gtag('event',n,p||{});}catch(e){}};</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Noto+Serif+JP:wght@300;400;500&display=swap" rel="stylesheet">
@@ -280,8 +282,8 @@ const C=[
  ex:'A retired neighbour who grows tomatoes and gives them away to the whole street. Nobody pays her. She still can’t wait for morning.',
  tr:'Write down three small moments this week that made you glad to be awake.',
  hint:'Tap the small things',aria:'A 3D Okinawan veranda at sunrise with tomatoes, tea, a wind chime and morning glories.',
- status:'An Okinawan morning on the veranda. Tap the small things that make her day worth getting up for.',
- buttons:[{id:'iki-reset',label:'Start the morning again',ghost:1}]},
+ status:'An Okinawan morning on the veranda. Four small things make her day worth getting up for. Tap around to find them. 0 of 4 found.',
+ buttons:[{id:'iki-reset',label:'See the morning again',ghost:1,hidden:1}]},
 {id:'kaizen',k:'改善',name:'Kaizen',say:'kai-zen',lit:'Literally “change for the better”.',ac:'--ai',
  mean:'Getting better through small, steady steps. Not one giant leap, but a tiny improvement every day that quietly adds up.',
  note:'Japanese factories made it famous after the war, where every worker was asked to suggest small fixes.',
@@ -457,7 +459,7 @@ const AUD={n:{"shikata":"SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAA
   const clear=()=>document.querySelectorAll('[data-r].on').forEach(x=>x.classList.remove('on'));
   document.addEventListener('click',e=>{
     const b=e.target.closest('[data-r]');if(!b)return;const src=(AUD[b.dataset.r]||{})[b.dataset.id];if(!src)return;
-    clear();player.pause();player.src='data:audio/mpeg;base64,'+src;b.classList.add('on');window.KMusic&&KMusic.duck(true);
+    clear();player.pause();player.src='data:audio/mpeg;base64,'+src;b.classList.add('on');window.track&&track('pronunciation_play',{word:b.dataset.id,speed:b.dataset.r==='s'?'slow':'normal'});window.KMusic&&KMusic.duck(true);
     const done=()=>{clear();window.KMusic&&KMusic.duck(false);};player.onended=done;player.play().catch(done);
   });
 })();
@@ -467,7 +469,7 @@ const AUD={n:{"shikata":"SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAA
 
 /* ================= MENU ================= */
 (function(){const sh=document.getElementById('menu'),btn=document.getElementById('menu-btn');
-  const set=o=>{sh.classList.toggle('open',o);sh.setAttribute('aria-hidden',!o);btn.setAttribute('aria-expanded',o);if(o)setTimeout(()=>sh.querySelector('.x').focus(),50);else btn.focus({preventScroll:true});};
+  const set=o=>{if(o&&window.track)track('menu_open');sh.classList.toggle('open',o);sh.setAttribute('aria-hidden',!o);btn.setAttribute('aria-expanded',o);if(o)setTimeout(()=>sh.querySelector('.x').focus(),50);else btn.focus({preventScroll:true});};
   btn.addEventListener('click',()=>set(!sh.classList.contains('open')));
   sh.addEventListener('click',e=>{if(e.target.closest('[data-close]'))set(false);else if(e.target.closest('a'))set(false);});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&sh.classList.contains('open'))set(false);});})();
@@ -514,7 +516,7 @@ const AUD={n:{"shikata":"SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAA
     if(!RMq)requestAnimationFrame(loop);};
   requestAnimationFrame(loop);
   /* kanji reveal */
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.2});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');window.track&&track('concept_view',{concept:e.target.id});io.unobserve(e.target);}}),{threshold:0.2});
   document.querySelectorAll('.concept').forEach(s=>io.observe(s));
   /* music: soft koto-like phrases in the in scale, over a quiet drone */
   const btn=document.getElementById('music'),lab=document.getElementById('music-l');let A=null,master,rev,on=false,timer,duckd=false;
@@ -534,7 +536,7 @@ const AUD={n:{"shikata":"SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAA
     for(let i=0;i<n;i++){pos=Math.max(0,Math.min(9,pos+[-2,-1,-1,1,1,2][Math.floor(Math.random()*6)]));const f=SC[pos%5]*(pos>=5?2:1)*0.5;pluck(f,t,0.08+Math.random()*0.05);if(Math.random()<0.25)pluck(f*0.5,t,0.04);t+=0.38+Math.random()*0.55;}
     timer=setTimeout(phrase,(t-t0)*1000+2600+Math.random()*4200);};
   const level=()=>duckd?0.18:0.75;
-  btn.addEventListener('click',()=>{if(!A)init();unlockAudio(A);on=!on;window.__musicOn=on;btn.classList.toggle('on',on);btn.setAttribute('aria-pressed',on);lab.textContent=on?'Music on':'Play music';
+  btn.addEventListener('click',()=>{if(!A)init();unlockAudio(A);on=!on;window.__musicOn=on;btn.classList.toggle('on',on);btn.setAttribute('aria-pressed',on);lab.textContent=on?'Music on':'Play music';window.track&&track('music_toggle',{state:on?'on':'off'});
     if(on){A.resume();master.gain.cancelScheduledValues(A.currentTime);master.gain.setTargetAtTime(level(),A.currentTime,1.4);clearTimeout(timer);phrase();}
     else{master.gain.setTargetAtTime(0,A.currentTime,0.35);clearTimeout(timer);}});
   window.KMusic={duck(v){duckd=v;if(A&&on)master.gain.setTargetAtTime(level(),A.currentTime,0.12);}};
@@ -641,7 +643,7 @@ function stage(def){
   new ResizeObserver(resize).observe(box); resize();
   new IntersectionObserver(es=>{s.visible=es[0].isIntersecting;},{rootMargin:'120px'}).observe(box);
   let down=null; const hint=box.querySelector('.hint');
-  cv.addEventListener('pointerdown',e=>{down={x:e.clientX,y:e.clientY,ry:s.rotY,rx:s.rotX,moved:false};try{cv.setPointerCapture(e.pointerId);}catch(_){} if(hint)hint.style.opacity=0; def.down&&def.down(e,s);});
+  cv.addEventListener('pointerdown',e=>{if(!s.tracked){s.tracked=1;window.track&&track('scene_interact',{concept:def.id});}down={x:e.clientX,y:e.clientY,ry:s.rotY,rx:s.rotX,moved:false};try{cv.setPointerCapture(e.pointerId);}catch(_){} if(hint)hint.style.opacity=0; def.down&&def.down(e,s);});
   cv.addEventListener('pointermove',e=>{def.move&&def.move(e,s,!!down); if(!down)return; const dx=e.clientX-down.x,dy=e.clientY-down.y; if(Math.hypot(dx,dy)>6)down.moved=true;
     if(def.drag!==false&&down.moved){s.auto=false;s.rotY=down.ry+dx*0.01;s.rotX=clamp(down.rx+dy*0.005,def.minX!=null?def.minX:-0.25,def.maxX!=null?def.maxX:0.5);}});
   cv.addEventListener('pointerup',e=>{if(down&&!down.moved&&def.tap)def.tap(e,s);down=null;});
@@ -742,11 +744,11 @@ stage({id:'ikigai',cam:[0.3,1.45,4.5],target:[0,0.95,0],fov:40,fovNarrow:54,maxX
      fl.position.copy(c.getPointAt(tt)).add(V3(0,0,0.06));fl.rotation.x=-1.1+i*0.15;fl.rotation.z=(i%2?0.4:-0.4);fl.scale.set(0.15,1,0.15);g.add(fl);s.glories.push(fl);});
    g.position.set(-1.65,0,0.2);mk(g,V3(-1.65,1.65,0.2),'Morning glories opening','The morning glories she planted, opening for the day.');}
   s.done=0;
-  s.text0='An Okinawan morning on the veranda. Tap the small things that make her day worth getting up for.';
-  $('iki-reset').onclick=()=>{s.things.forEach(t=>{t.on=false;});s.say(s.text0);};
+  s.text0='The sun is coming up again. Four small things make her day worth getting up for. Tap around to find them. 0 of 4 found.';
+  $('iki-reset').onclick=()=>{s.things.forEach(t=>{t.on=false;});s.sw=0;s.sun.position.y=1.2;$('iki-reset').hidden=true;s.say(s.text0);};
  },
- tap(e,s){const h=s.pick(e,s.things.map(t=>t.group))[0];if(!h)return;const th=s.things[h.object.userData.th];th.on=true;if(th.group===s.chime){s.sw=1;playChime();}
-  const n=s.things.filter(t=>t.on).length;s.say(n===4?'None of these will make her rich or famous. Together, they’re why she gets up every morning. That’s ikigai.':th.msg);},
+ tap(e,s){const h=s.pick(e,s.things.map(t=>t.group))[0];if(!h){const n=s.things.filter(t=>t.on).length;if(n<4)s.say('Try tapping the tomatoes, the tea, the wind chime under the roof, or the flowers on the bamboo. '+n+' of 4 found.');return;}const th=s.things[h.object.userData.th];th.on=true;if(th.group===s.chime){s.sw=1;playChime();}
+  const n=s.things.filter(t=>t.on).length;if(n===4){s.say('All 4 found. None of these will make her rich or famous. Together, they’re why she gets up every morning. That’s ikigai.');$('iki-reset').hidden=false;}else s.say(th.msg+' '+n+' of 4 found.');},
  update(dt,t,s){
   s.things.forEach(th=>{th.lb.material.opacity=approach(th.lb.material.opacity,th.on?1:0,4,dt);});
   const n=s.things.filter(t=>t.on).length/4;s.sunL.intensity=0.55+n*0.4;s.hemi.intensity=0.45+n*0.2;s.sun.position.y=approach(s.sun.position.y,1.2+n*1.2,1,dt);
